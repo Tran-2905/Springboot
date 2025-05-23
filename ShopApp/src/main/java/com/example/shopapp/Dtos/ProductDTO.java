@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
+import java.util.List;
+
 @Data
 @Getter
 @Setter
@@ -26,5 +28,5 @@ public class ProductDTO {
     private String description;
     @JsonProperty("category_id")
     private int categoryId;
-    private MultipartFile file;
+    private List<MultipartFile> files;
 }
