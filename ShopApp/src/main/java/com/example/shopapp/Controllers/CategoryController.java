@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/category")
+@RequestMapping("/${api.prefix}/category")
 //@Validated
 public class CategoryController {
     // hien thi tat ca cac category

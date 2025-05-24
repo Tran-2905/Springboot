@@ -15,7 +15,7 @@ import java.beans.BeanInfo;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/${api.prefix}/users")
 public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO , BindingResult result){
