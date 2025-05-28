@@ -9,6 +9,7 @@ import com.example.shopapp.Response.ProductListResponse;
 import com.example.shopapp.Response.ProductResponse;
 import com.example.shopapp.Service.IProductService;
 import com.example.shopapp.Service.ProductService;
+import com.github.javafaker.Faker;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -119,6 +120,32 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<String> getProductById(@RequestParam("id") long id){
         return ResponseEntity.status(HttpStatus.OK).body("Product with id = " + id);
+    }
+
+//    @PostMapping("/generateFakeproduct")
+    private ResponseEntity<?> generateFakeproduct() {
+        Faker faker = new Faker();
+        for(int i = 0; i < 1000000; i++){
+            String productName = faker.commerce().productName();
+            if(productService.existsByName(productName)){
+                continue;
+            }
+
+            ProductDTO productDTO = ProductDTO.builder().name(productName)
+                    .price(faker.number().numberBetween(10,900000000))
+                    .description(faker.lorem().paragraph())
+                    .categoryId((long) faker.number().numberBetween(2,5))
+                    .description(faker.lorem().paragraph())
+                    .thumbnail(faker.internet().image())
+                    .build() ;
+            try{
+                productService.createProduct(productDTO);
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            }
+
+        }
+        return ResponseEntity.ok("Generate fake product successfully");
     }
 
 }

@@ -1,6 +1,8 @@
 package com.example.shopapp.Controllers;
 
 import com.example.shopapp.Dtos.OrderDTO;
+import com.example.shopapp.Dtos.ProductDTO;
+import com.github.javafaker.Faker;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
@@ -48,4 +50,5 @@ public class OrderController {
     public ResponseEntity<String> deleteOrder(@PathVariable @Valid long id){
         return ResponseEntity.ok("Delete order with id = " + id);
     }
+
 }

@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ProductDTO {
     @NotNull(message = "Product name can not be null")
     @Size(min = 3, max = 255, message = "Product name must be between 3 and 255 characters")
