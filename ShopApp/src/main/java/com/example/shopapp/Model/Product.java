@@ -13,8 +13,9 @@ import java.util.Locale;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Builder
 public class Product extends BaseEntity{
+    public static final int MAX_IMAGES = 5;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -22,7 +23,7 @@ public class Product extends BaseEntity{
     @Column(name = "name",nullable = false, length = 350)
     private String name;
 
-    private Float price;
+    private double price;
 
     @Column(name = "thumbnail",nullable = false, length = 300)
     private String thumbnail;

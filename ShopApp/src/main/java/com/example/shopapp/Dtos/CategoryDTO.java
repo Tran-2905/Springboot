@@ -1,5 +1,6 @@
 package com.example.shopapp.Dtos;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryDTO {
-    @NotEmpty(message = "Name can not be null")
+    @NotBlank(message = "Name can not be null")
     private String name;
 
 }
