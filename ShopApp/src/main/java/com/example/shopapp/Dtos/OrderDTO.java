@@ -6,6 +6,10 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.sql.Date;
+import java.time.LocalDate;
+
 @Data
 @Getter
 @Setter
@@ -16,7 +20,7 @@ public class OrderDTO {
 
     @Min(value = 1, message = "user id must be greater than or equal to 1")
     @JsonProperty("user_id")
-    private int userId;
+    private long userId;
 
     private String fullname;
 
@@ -46,4 +50,7 @@ public class OrderDTO {
 
     @JsonProperty("payment_method")
     private String paymentMethod;
+
+    @JsonProperty("shipping_date")
+    private Date shippingDate;
 }

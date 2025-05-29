@@ -1,5 +1,6 @@
 package com.example.shopapp.Response;
 
+import com.example.shopapp.Model.Product;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -18,5 +19,16 @@ public class ProductResponse {
     private double price;
     private String thumbnail;
     private String description;
+    @JsonProperty("category_id")
     private Long categoryId;
+
+    public static ProductResponse fromProduct(Product product) {
+        return ProductResponse.builder()
+                .name(product.getName())
+                .price(product.getPrice())
+                .thumbnail(product.getThumbnail())
+                .description(product.getDescription())
+                .categoryId(product.getCategory().getId()).build();
+
+    }
 }

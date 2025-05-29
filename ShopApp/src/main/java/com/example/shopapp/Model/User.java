@@ -30,6 +30,7 @@ public class User extends BaseEntity{
     @Column(name = "password",nullable = false, length = 100)
     private String password;
 
+    @Column(name = "is_active")
     private boolean isActive;
 
     @Column(name = "date_of_birth")
@@ -42,6 +43,6 @@ public class User extends BaseEntity{
     private String googleAccountId;
 
     @ManyToOne
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id")  // role_id trong bảng users trỏ đến roles.id
     private Role role;
 }

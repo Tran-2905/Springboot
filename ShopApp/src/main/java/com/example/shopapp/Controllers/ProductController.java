@@ -1,6 +1,5 @@
 package com.example.shopapp.Controllers;
 
-import ch.qos.logback.core.util.StringUtil;
 import com.example.shopapp.Dtos.ProductDTO;
 import com.example.shopapp.Dtos.ProductImageDTO;
 import com.example.shopapp.Model.Product;
@@ -8,8 +7,6 @@ import com.example.shopapp.Model.ProductImage;
 import com.example.shopapp.Response.ProductListResponse;
 import com.example.shopapp.Response.ProductResponse;
 import com.example.shopapp.Service.IProductService;
-import com.example.shopapp.Service.ProductService;
-import com.github.javafaker.Faker;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,15 +21,15 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 @RequiredArgsConstructor
@@ -110,7 +107,7 @@ public class ProductController {
         return fileName;
     }
     @GetMapping("")
-    public ResponseEntity<?> getProduct( @RequestParam("Page") int page, @RequestParam("Size") int size){
+    public ResponseEntity<?> getAllProduct( @RequestParam("Page") int page, @RequestParam("Size") int size){
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createAt").descending());
         Page<ProductResponse> productPage = productService.getAllProducts(PageRequest.of(page, size));
         int totalPages = productPage.getTotalPages();
@@ -118,34 +115,49 @@ public class ProductController {
         return ResponseEntity.ok(ProductListResponse.builder().totalPages(totalPages).products(products).build());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<String> getProductById(@RequestParam("id") long id){
-        return ResponseEntity.status(HttpStatus.OK).body("Product with id = " + id);
+    public ResponseEntity<?> getProductById(@PathVariable("id") long id){
+        try{
+            Product productExisting = productService.getProductById(id);
+            return ResponseEntity.ok(ProductResponse.fromProduct(productExisting));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
-//    @PostMapping("/generateFakeproduct")
-    private ResponseEntity<?> generateFakeproduct() {
-        Faker faker = new Faker();
-        for(int i = 0; i < 1000000; i++){
-            String productName = faker.commerce().productName();
-            if(productService.existsByName(productName)){
-                continue;
-            }
-
-            ProductDTO productDTO = ProductDTO.builder().name(productName)
-                    .price(faker.number().numberBetween(10,900000000))
-                    .description(faker.lorem().paragraph())
-                    .categoryId((long) faker.number().numberBetween(2,5))
-                    .description(faker.lorem().paragraph())
-                    .thumbnail(faker.internet().image())
-                    .build() ;
-            try{
-                productService.createProduct(productDTO);
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            }
-
+////    @PostMapping("/generateFakeproduct")
+//    private ResponseEntity<?> generateFakeproduct() {
+//        Faker faker = new Faker();
+//        for(int i = 0; i < 1000000; i++){
+//            String productName = faker.commerce().productName();
+//            if(productService.existsByName(productName)){
+//                continue;
+//            }
+//
+//            ProductDTO productDTO = ProductDTO.builder().name(productName)
+//                    .price(faker.number().numberBetween(10,900000000))
+//                    .description(faker.lorem().paragraph())
+//                    .categoryId((long) faker.number().numberBetween(2,5))
+//                    .description(faker.lorem().paragraph())
+//                    .thumbnail(faker.internet().image())
+//                    .build() ;
+//            try{
+//                productService.createProduct(productDTO);
+//            } catch (Exception e) {
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//            }
+//
+//        }
+//        return ResponseEntity.ok("Generate fake product successfully");
+//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") long id){
+        try {
+            productService.deleteProductById(id);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        return ResponseEntity.ok("Generate fake product successfully");
+        return ResponseEntity.status(HttpStatus.OK).body("Product successfully deleted " + id);
     }
 
 }
