@@ -5,6 +5,6 @@ import com.example.shopapp.Model.User;
 
 public interface IUserService {
     User createUser(UserDTO user);
-    String login(String phoneNumber, String password);
+    String login(String phoneNumber, String password)throws Exception;
 
 }

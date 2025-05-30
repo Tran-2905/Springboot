@@ -52,7 +52,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public String login(String phoneNumber, String password) {
+    public String login(String phoneNumber, String password) throws Exception {
         Optional<User> optionalUser = userRepository.findByPhoneNumber(phoneNumber);
         if(optionalUser.isEmpty()){
             throw new RuntimeException("Invalid username or password");
@@ -65,8 +65,7 @@ public class UserService implements IUserService {
             }
         }
         UsernamePasswordAuthenticationToken authenticationToken = new
-                UsernamePasswordAuthenticationToken(existingUser.getPhoneNumber(),
-                existingUser.getPassword());
+                UsernamePasswordAuthenticationToken(phoneNumber, password,existingUser.getAuthorities());
         authenticationManager.authenticate(authenticationToken);
         return jwtTokenUtil.generateToken(existingUser);
     }

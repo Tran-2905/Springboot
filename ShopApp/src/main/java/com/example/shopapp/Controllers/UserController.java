@@ -2,6 +2,7 @@ package com.example.shopapp.Controllers;
 
 import com.example.shopapp.Dtos.UserDTO;
 import com.example.shopapp.Dtos.UserLoginDTO;
+import com.example.shopapp.Model.User;
 import com.example.shopapp.Service.IUserService;
 import com.example.shopapp.Service.UserService;
 import jakarta.validation.Valid;
@@ -32,8 +33,9 @@ public class UserController {
             if(!userDTO.getPassword().equals(userDTO.getRetypePassword())){
                 return ResponseEntity.badRequest().body("Password and retype password must be the same");
             }
-            userService.createUser(userDTO);
-            return ResponseEntity.ok("Register User successfully");
+            User user = userService.createUser(userDTO);
+//            ResponseEntity.ok("Register User successfully");
+            return ResponseEntity.ok(user);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
