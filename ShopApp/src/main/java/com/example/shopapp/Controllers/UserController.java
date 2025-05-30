@@ -1,6 +1,7 @@
 package com.example.shopapp.Controllers;
 
 import com.example.shopapp.Dtos.UserDTO;
+import com.example.shopapp.Dtos.UserLoginDTO;
 import com.example.shopapp.Service.IUserService;
 import com.example.shopapp.Service.UserService;
 import jakarta.validation.Valid;
@@ -38,16 +39,13 @@ public class UserController {
         }
     }
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody UserDTO userDTO, BindingResult result){
-        try {
-            if(result.hasErrors()){
-                List<String> errors = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
-                return ResponseEntity.badRequest().body(errors.toString());
-            }
-            String token = userService.login(userDTO.getPhoneNumber(), userDTO.getPassword());
-            return ResponseEntity.ok("Login User successfully" + token);
-        }catch(Exception e){
+    public ResponseEntity<String> login(@Valid @RequestBody UserLoginDTO userLoginDTO ){
+        try{
+           String token = userService.login(userLoginDTO.getPhoneNumber(),userLoginDTO.getPassword());
+           return ResponseEntity.ok(token);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+
     }
 }
