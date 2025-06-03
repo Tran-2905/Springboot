@@ -26,7 +26,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> {
-                    requests.requestMatchers("/**").permitAll();
+                    requests.requestMatchers("**").permitAll();
                 });
         return http.build();
     }
