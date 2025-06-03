@@ -26,7 +26,7 @@ public class UserService implements IUserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public User createUser(UserDTO user) {
+    public User createUser(UserDTO user) throws Exception{
         String phoneNumber = user.getPhoneNumber();
         if(userRepository.existsByPhoneNumber(phoneNumber)){
             throw new RuntimeException("User with phone number " + phoneNumber + " already exists");

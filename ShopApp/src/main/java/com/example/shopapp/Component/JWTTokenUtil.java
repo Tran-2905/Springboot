@@ -9,6 +9,7 @@ import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -31,7 +32,7 @@ public class JWTTokenUtil {
 //        this.generateSecretKey();
         claims.put("phoneNumber", user.getPhoneNumber());
         try{
-            String token = Jwts.builder().setClaims(claims)
+            String  token = Jwts.builder().setClaims(claims)
                     .setSubject(user.getPhoneNumber())
                     .setExpiration(new Date(System.currentTimeMillis() + expiration*1000L))
                     .signWith(getSigninKey(), SignatureAlgorithm.HS256)
@@ -56,9 +57,8 @@ public class JWTTokenUtil {
     }
 
     private Claims extractAllClaim(String token) {
-        return
-                Jwts
-                .parser()
+        return Jwts
+                .parserBuilder()
                 .setSigningKey(getSigninKey())
                 .build()
                 .parseClaimsJws(token)
@@ -79,4 +79,8 @@ public class JWTTokenUtil {
         return extractClaims(token,Claims::getSubject);
     }
 
+    public boolean validateToken(String token, UserDetails userDetails) {
+        String phoneNumber = this.extractPhoneNumber(token);
+        return (phoneNumber.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    }
 }

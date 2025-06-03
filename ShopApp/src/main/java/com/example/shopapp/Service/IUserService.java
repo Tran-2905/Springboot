@@ -4,7 +4,7 @@ import com.example.shopapp.Dtos.UserDTO;
 import com.example.shopapp.Model.User;
 
 public interface IUserService {
-    User createUser(UserDTO user);
+    User createUser(UserDTO user) throws Exception;
     String login(String phoneNumber, String password)throws Exception;
 
 }

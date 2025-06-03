@@ -2,14 +2,14 @@ package com.example.shopapp.Service;
 
 import com.example.shopapp.Dtos.OrderDTO;
 import com.example.shopapp.Model.Order;
-import com.example.shopapp.Response.OrderResponse;
+import com.example.shopapp.Model.User;
 
 import java.util.List;
 
 public interface IOrderService {
-    public List<OrderResponse> getAllOrders();
-    public OrderResponse getOrderById(int id);
-    public OrderResponse updateOrder(Order order);
-    public void deleteOrder(int id);
-    public OrderResponse createOrder(OrderDTO orderDTO);
+    public List<Order> getByUserId( Long userId );
+    public Order getOrderById(long id);
+    public Order updateOrder(Long id , OrderDTO orderDTO);
+    public void deleteOrder(long id);
+    public Order createOrder(OrderDTO orderDTO);
 }

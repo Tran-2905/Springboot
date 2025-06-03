@@ -1,6 +1,7 @@
 package com.example.shopapp.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class Order{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @Column(name = "fullname", length = 100)
     private String fullname;
@@ -65,6 +66,7 @@ public class Order{
     @Column(name = "payment_method", length = 100)
     private String paymentMethod;
 
+    @NotNull
     @Column(name = "active")
     private Boolean active;
 
