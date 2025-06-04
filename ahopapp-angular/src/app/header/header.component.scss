@@ -1,0 +1,32 @@
+header {
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(173, 178, 203);
+}
+
+.navbar {
+    width: 100%;
+    background-color: #f8f9fa;
+}
+
+.navbar .container {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.navbar .container .navbar-brand {
+    color: rgb(173, 178, 203);
+}
+
+.navbar .nav-link .navbar-nav .container {
+    color: rgb(173, 178, 203);
+    border-radius: 18px;
+    padding: 8px 16px;
+}
+
+.navbar .nav-link.active .container .navbar-nav {
+    background-color: rgb(127, 68, 255);
+    color: white !important;
+}
+
+.form-control {
+    color: black;
+}
